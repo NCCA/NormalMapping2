@@ -14,8 +14,8 @@ uniform sampler2D tex_depth; // 2
 */
 uniform int type;
 uniform int show_tex;
-uniform float depth_scale;
-uniform float num_layers;
+uniform float depth_scale=0.01;
+uniform float num_layers=5;
 
 in vec2 frag_uv;
 in vec3 ts_light_pos;

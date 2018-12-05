@@ -193,7 +193,8 @@ void NGLScene::loadMatricesToShader()
    t.normalMatrix.inverse().transpose();
    shader->setUniformBuffer("TransformUBO",sizeof(transform),&t.MVP.m_00);
    shader->setUniform("type",m_type);
-   ngl::msg->addMessage(fmt::format("type is {0}",m_type));
+   shader->setUniform("num_layers",m_layers);
+   shader->setUniform("depth_scale",m_depthScale);
 }
 
 void NGLScene::paintGL()
@@ -259,6 +260,8 @@ void NGLScene::paintGL()
       m_text->setColour(1.0f,1.0f,1.0f);
 
       m_text->renderText(10,20,QString("Mode :- %1").arg(modes[m_type]) );
+      m_text->renderText(10,40,QString("Number of Layers :- %1").arg(m_layers) );
+      m_text->renderText(10,60,QString("Depth Scale :- %1").arg(m_depthScale) );
     }
 
 }
@@ -307,7 +310,10 @@ void NGLScene::keyPressEvent( QKeyEvent* _event )
   case Qt::Key_2 : m_type = 2; break;
   case Qt::Key_3 : m_type = 3; break;
   case Qt::Key_4 : m_type = 4; break;
-
+  case Qt::Key_Up : m_layers+=1.0f; break;
+  case Qt::Key_Down : m_layers-=1.0f; break;
+  case Qt::Key_Left : m_depthScale+=0.001f; break;
+  case Qt::Key_Right : m_depthScale-=0.001f; break;
 
     default:
       break;
